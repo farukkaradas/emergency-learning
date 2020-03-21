@@ -1,8 +1,8 @@
 """
 Created on Mon May  6 17:44:33 2019
-TRIAL 1
+METHOD 1
 @author: Ömer Faruk KARADAŞ
-230206040
+
 """
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -21,13 +21,13 @@ def label(data):
 data = pd.read_csv('911.csv')
 
 """
-    METHOD 1
+   Accuracy increasing method 1
 """
 # Eliminating the prefix such that Fire,EMS ...
 data = data.replace(["Fire: ", "EMS: ", 'Traffic: ', ' -'], '', regex=True)
 
 """
-    METHOD 2
+    Accuracy increasing method 2
 """
 # Eliminating the rare case which are happened lower than 100 times
 
@@ -37,73 +37,7 @@ for i in range(len(a)):
         data = data[data.title != a.index[i]]
 
 """
-    METHOD 3
-"""
-# Eliminating the outlayer boundary of data
-data.loc[((data['lat'] < 39.00) | (data['lat'] > 41.00)) &
-         ((data['lng'] < -77.00) | (data['lng'] > -74.00))]
-data = data.iloc[:, [0, 1, 4]]
-train, test = train_test_split(data, test_size=0.05, random_state=1)
-
-# Finding basic groupping information
-sp = sorted(pd.unique(data.title))
-# sp = label(data.title) # This gives all discrete titles
-a = train.groupby('title').size()  # This count all titles
-# Class prior for each titles
-P_a = train.groupby('title').size().div(len(train))
-b = train.groupby(['lat', 'lng', 'title'])['lat'].size()
-# This counts discrete things happened in a unique street
-c = train.groupby(['lat', 'lng'])['title'].size()
-
-P_b = []
-# This list will be used for probobality of case in c series
-P_c = []
-# This list will be used for probability of maximum case  in discrete streets
-"""
-    BAYES THEORY
-
-    P(x,y|Ci)=P(Ci|x,y)*P(x,y)/( P(C0|x,y)*P(x,y)+P())
-"""
-"""
-Created on Mon May  6 17:44:33 2019
-TRIAL 1
-@author: Ömer Faruk KARADAŞ
-230206040
-"""
-import Pandas as pd
-from sklearn.model_selection import train_test_split
-
-
-# This function find unique label from titles
-def label(data):
-    labell = []
-    for i in range(len(data)):
-        if (data[i] not in labell):
-            labell.append(data[i])
-    return sorted(labell)
-
-"""
-    IMPORTING DATA AND DIVIDING INTO TEST(%5) AND TRAIN DATA SETS
-"""
-data = pd.read_csv('911.csv')
-"""
-    METHOD 1
-"""
-# Eliminating the prefix such that Fire,EMS ...
-data = data.replace(["Fire: ", "EMS: ", 'Traffic: ', ' -'], '', regex=True)
-
-"""
-    METHOD 2
-"""
-# Eliminating the rare case which are happened lower than 100 times
-
-a = data.groupby('title').size()
-for i in range(len(a)):
-    if(a[i] < 100):
-        data = data[data.title != a.index[i]]
-
-"""
-    METHOD 3
+    Accuracy increasing method 3
 """
 # Eliminating the outlayer boundary of data
 data.loc[((data['lat'] < 39.00) | (data['lat'] > 41.00)) &
