@@ -1,6 +1,6 @@
 """
 Created on Mon May  6 23:00:43 2019
-Deneme 2
+METHOD 2
 @author: Faruk
 """
 import pandas as pd
@@ -15,12 +15,12 @@ from sklearn.tree import DecisionTreeClassifier
 """
 data = pd.read_csv('911.csv')
 """
-    METHOD 1
+    Accuracy increasing method 1
 """
 # Eliminating the prefix such that Fire,EMS ...
 data = data.replace(["Fire: ", "EMS: ", 'Traffic: ', ' -'], '', regex=True)
 """
-    METHOD 2
+    Accuracy increasing method 2
 """
 # Eliminating the rare case which are happened lower than 100 times
 
@@ -31,8 +31,7 @@ for i in range(len(a)):
         data = data[data.title != a.index[i]]
 
 """
-    METHOD 3
-
+    Accuracy increasing method 3
 """
 # Eliminating the outlayer boundary of data
 data.loc[((data['lat'] < 39.00) | (data['lat'] > 41.00)) &
